@@ -10,12 +10,15 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true, useUnifiedTopology: 
     
     const db= client.db(databaseName);
 
-    db.collection('users').findOne({ name: 'Tukiyem' }, (err, user) => {
-        if(err) {
-            return console.log('Unable to fetch');
+    db.collection('tasks').updateMany({
+        completed: false
+    }, {
+        $set: {
+            completed: true
         }
-
-        console.log(user);
+    }).then((res) => {
+        console.log(res.modifiedCount);
+    }).catch((err) => {
+        console.log(err);
     })
-
 })
